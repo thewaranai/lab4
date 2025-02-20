@@ -14,48 +14,53 @@ public class Main {
         quickSort(array, 0, array.length -1);
 
         System.out.println("Массив после сортировки:");
-        printArray(array);
-
+        int newSize = moveZero(array);
+        for (int i = 0; i < newSize; i++) {
+            System.out.print(array[i] + " ");
+        }
        int[] nonZeroArray = delZero(array);
         quickSort(nonZeroArray, 0, nonZeroArray.length -1);
 
         System.out.println("Массив без нулей:");
         printArray(nonZeroArray);
     }
+    public static int moveZero ( int[] array){
+        int index = 0;
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] != 0) {
+                array[index] = array[i];
+                index++;
+            }
+        }
+        while (index < array.length) {
+            array[index] = 0;
+            index++;
+        }
+        return index;
+    }
     public static void quickSort(int[] array, int low, int high) {
         if (low < high) {
-            // Индекс опорного элемента
             int pivotIndex = partition(array, low, high);
-
-            // Рекурсивная сортировка левой и правой частей
             quickSort(array, low, pivotIndex - 1);
             quickSort(array, pivotIndex + 1, high);
         }
     }
-
-    // Метод для разделения массива
     private static int partition(int[] array, int low, int high) {
-        // Выбор опорного элемента (в данном случае последний элемент)
         int pivot = array[high];
-        int i = (low - 1); // Индекс меньшего элемента
+        int i = (low - 1);
 
         for (int j = low; j < high; j++) {
-            // Если текущий элемент меньше или равен опорному
             if (array[j] <= pivot) {
                 i++;
-                // Обмен array[i] и array[j]
                 int temp = array[i];
                 array[i] = array[j];
                 array[j] = temp;
             }
         }
-
-        // Обмен array[i + 1] и array[high] (или опорный элемент)
         int temp = array[i + 1];
         array[i + 1] = array[high];
         array[high] = temp;
-
-        return i + 1; // Возвращаем индекс опорного элемента
+        return i + 1;
     }
     public static int[] delZero(int[] array) {
         int count = 0;
