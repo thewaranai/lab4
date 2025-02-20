@@ -11,7 +11,7 @@ public class Main {
         System.out.println("Массив до сортировки:");
         printArray(array);
 
-        quickSort(array, 0, array.length -1);
+        combSort(array);
 
         System.out.println("Массив после сортировки:");
         int newSize = moveZero(array);
@@ -19,7 +19,7 @@ public class Main {
             System.out.print(array[i] + " ");
         }
        int[] nonZeroArray = delZero(array);
-        quickSort(nonZeroArray, 0, nonZeroArray.length -1);
+        combSort(nonZeroArray);
 
         System.out.println("Массив без нулей:");
         printArray(nonZeroArray);
@@ -38,29 +38,22 @@ public class Main {
         }
         return index;
     }
-    public static void quickSort(int[] array, int low, int high) {
-        if (low < high) {
-            int pivotIndex = partition(array, low, high);
-            quickSort(array, low, pivotIndex - 1);
-            quickSort(array, pivotIndex + 1, high);
+    public static void combSort(int[] values){
+        double factor = 1.247;
+        int step = values.length - 1;
+        while (step >= 1){
+            for (int i = 0; i + step < values.length; ++i){
+                if (values[i] > values[i + step]){
+                    swap (values, i,i + step);
+                }
+            }
+            step /= factor;
         }
     }
-    private static int partition(int[] array, int low, int high) {
-        int pivot = array[high];
-        int i = (low - 1);
-
-        for (int j = low; j < high; j++) {
-            if (array[j] <= pivot) {
-                i++;
-                int temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
-            }
-        }
-        int temp = array[i + 1];
-        array[i + 1] = array[high];
-        array[high] = temp;
-        return i + 1;
+    static void swap(int[] SortArr, int i, int j){
+        int swap = SortArr[i];
+        SortArr[i] = SortArr[j];
+        SortArr[j] = swap;
     }
     public static int[] delZero(int[] array) {
         int count = 0;
